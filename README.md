@@ -1,4 +1,4 @@
-# vue-admin
+# vue-cli3-admin
 
 ## Project setup
 ```

@@ -4,7 +4,7 @@
     :index="menu.menuId + ''"
     :popper-class="'site-sidebar--popper'">
     <template slot="title">
-      <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg>
+      <i :class="menu.icon"></i>
       <span>{{ menu.name }}</span>
     </template>
     <sub-menu
@@ -15,7 +15,7 @@
     </sub-menu>
   </el-submenu>
   <el-menu-item v-else :index="menu.menuId + ''" @click="gotoRouteHandle(menu)">
-    <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg>
+    <i :class="menu.icon"></i>
     <span>{{ menu.name }}</span>
   </el-menu-item>
 </template>

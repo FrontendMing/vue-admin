@@ -18,7 +18,6 @@
   import MainNavbar from './_navbar'
   import MainSidebar from './_sidebar'
   import MainContent from './_content'
-  import { mapState, mapActions } from 'vuex'
   export default {
     data () {
       return {

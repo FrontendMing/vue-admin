@@ -1,8 +1,7 @@
 <template>
   <el-dialog
     title="修改密码"
-    :visible.sync="visible"
-    :append-to-body="true">
+    :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="账号">
         <span>{{ userName }}</span>
@@ -26,7 +25,6 @@
 
 <script>
   import { clearLoginInfo } from '@/utils'
-  import { mapState } from 'vuex'
   export default {
     data () {
       var validateConfirmPassword = (rule, value, callback) => {
@@ -58,14 +56,13 @@
       }
     },
     computed: {
-      ...mapState([ 'mainTabs' ])
       // userName: {
       //   get () { return this.$store.state.user.name }
       // },
-      // mainTabs: {
-      //   get () { return this.$store.state.mainTabs },
-      //   set (val) { this.$store.commit('common/updateMainTabs', val) }
-      // }
+      mainTabs: {
+        get () { return this.$store.state.mainTabs },
+        set (val) { this.$store.dispatch('updateMainTabs', val) }
+      }
     },
     methods: {
       // 初始化

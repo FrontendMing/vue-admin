@@ -45,7 +45,6 @@
 <script>
   import UpdatePassword from './_navbarUpdatePwd'
   import { clearLoginInfo } from '@/utils'
-  import { mapState, mapActions } from 'vuex'
   export default {
     data () {
       return {

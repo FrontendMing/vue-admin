@@ -6,11 +6,15 @@
 
 <script>
   export default {
+    name: 'addActivity',
     data(){
       return {
 
       }
-    }
+    },
+    methods: {
+      
+    },
   }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="创建二维码"
+      :title="title"
       :visible.sync="dialogVisible"
       width="820px">
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
@@ -63,7 +63,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogVisible = false">提 交</el-button>
       </span>
     </el-dialog>
 
@@ -83,6 +83,7 @@
     },
     data(){
       return {
+        title: undefined,
         dialogVisible: false,
         previewVisible: false,
         dialogImageUrl: undefined,
@@ -103,7 +104,12 @@
       }
     },
     methods: {
-      open(){
+      open(payload){
+        if(!payload){ // 添加
+          this.title = '创建二维码'
+        }else{ // 修改
+          this.title = '修改二维码信息'
+        }
         this.dialogVisible = true
       },
       handleRemove(file, fileList) {

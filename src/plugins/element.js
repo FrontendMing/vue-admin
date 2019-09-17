@@ -56,9 +56,12 @@ Vue.use(Icon)
    .use(Checkbox)
    .use(Input)
    .use(Select)
-   .use(Message)
-   .use(MessageBox)
    .use(Upload)
    .use(Dialog)
    .use(Loading)
+
+   Vue.prototype.$message = Message
+   Vue.prototype.$confirm = MessageBox.confirm
+   Vue.prototype.$alert = MessageBox.alert
+   Vue.prototype.$prompt = MessageBox.prompt
 

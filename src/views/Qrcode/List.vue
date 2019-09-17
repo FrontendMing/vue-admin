@@ -13,7 +13,7 @@
         </el-form-item>
       </el-form>
       <template slot="moreBtns">
-        <el-button type="success" icon="el-icon-plus" @click="createQrcode()">创建</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="handleAction('add')">创建</el-button>
       </template>
     </filter-component>
 
@@ -30,7 +30,7 @@
       <el-table-column fixed="right" header-align="center" align="center" width="160" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleAction('modify', scope.row)">修改</el-button>
-          <el-button type="text" size="small" @click="handleAction('shareSet', scope.row)">分享设置</el-button>
+          <el-button type="text" size="small" @click="handleAction('shareSetting', scope.row)">分享设置</el-button>
           <el-button type="text" size="small" @click="handleAction('deleteRow', scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -49,16 +49,20 @@
     <!-- 创建二维码 -->
     <add-qrcode v-if="addQrcodeVisible" ref="addQrcodeBox" @update="update"></add-qrcode>
 
+    <!-- 分享设置 -->
+    <share-setting v-if="shareSettingVisible" ref="shareSettingBox" @update="update"></share-setting>
+
   </div>
 </template>
 
 <script>
   import AddQrcode from './base/AddQrcode'
-  // import ResetPassword from './base/ResetPassword'
+  import ShareSetting from './base/ShareSetting'
   export default {
+    name: 'qrcodeList',
     components: {
       AddQrcode,
-      // ResetPassword,
+      ShareSetting
     },
     data(){
       return {
@@ -74,7 +78,7 @@
         }],
         tableDataLoading: false,
         addQrcodeVisible: false,
-        resetPasswordVisible: false,
+        shareSettingVisible: false,
       }
     },
     filters: {
@@ -95,19 +99,25 @@
       update(){
 
       },
-      createQrcode(){
-        this.addQrcodeVisible = true
-        this.$nextTick(() => {
-          this.$refs.addQrcodeBox.open()
-        })
-      },
       handleAction(type, row){
         switch(type){
-          case 'modify':
-            
+          case 'add':
+            this.addQrcodeVisible = true
+            this.$nextTick(() => {
+              this.$refs.addQrcodeBox.open(null)
+            })
             break
-          case 'resetPwd':
-            
+          case 'modify':
+            this.addQrcodeVisible = true
+            this.$nextTick(() => {
+              this.$refs.addQrcodeBox.open(row)
+            })
+            break
+          case 'shareSetting':
+            this.shareSettingVisible = true
+            this.$nextTick(() => {
+              this.$refs.shareSettingBox.open()
+            })
             break
           case 'deleteRow':
             this.$confirm('确定要删除此账号?', '提示', {
@@ -120,7 +130,6 @@
                   
             })
             break
-
         }
       },
       // 每页数

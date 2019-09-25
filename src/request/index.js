@@ -1,12 +1,13 @@
 import axios from 'axios'
+import qs from 'qs'
 import store from '@/store'
 
 const http = {}
-const baseUrl = process.env.NODE_ENV === 'production' ? '/' : '/api'
+const baseUrl = '/'
 
-var instance = axios.create({
+let instance = axios.create({
   timeout: 5000,
-  baseUrl,
+  baseUrl: baseUrl,
   validateStatus(status) {
     switch (status) {
       case 400:
@@ -37,9 +38,10 @@ var instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // 请求头添加token
-    if (store.state.UserToken) {
-      config.headers.Authorization = `${store.state.UserToken}`
+    if (sessionStorage.getItem('token')) {
+      config.headers.token = sessionStorage.getItem('token')
     }
+    config.data = config.data && qs.stringify(config.data)
     return config
   },
   function (error) {
@@ -70,56 +72,16 @@ http.get = function (url, options) {
     loading = document.getElementById('ajaxLoading')
     loading.style.display = 'block'
   }
-  return new Promise((resolve, reject) => {
-    instance
-      .get(url, options)
-      .then(response => {
-        if (!options || options.isShowLoading !== false) {
-          loading = document.getElementById('ajaxLoading')
-          loading.style.display = 'none'
-        }
-        if (response.code === 0) {
-          resolve(response.data)
-        } else {
-          this.$message.error({
-            message: response.msg
-          })
-          reject(response.msg)
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
-  })
+  return instance.get(url, options)
 }
 
 http.post = function (url, data, options) {
   let loading
-  if (!options || options.isShowLoading !== false) {
-    loading = document.getElementById('ajaxLoading')
-    loading.style.display = 'block'
-  }
-  return new Promise((resolve, reject) => {
-    instance
-      .post(url, data, options)
-      .then(response => {
-        if (!options || options.isShowLoading !== false) {
-          loading = document.getElementById('ajaxLoading')
-          loading.style.display = 'none'
-        }
-        if (response.code === 0) {
-          resolve(response.data)
-        } else {
-          this.$message.error({
-            message: response.msg
-          })
-          reject(response.message)
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
-  })
+  // if (!options || options.isShowLoading !== false) {
+  //   loading = document.getElementById('ajaxLoading')
+  //   loading.style.display = 'block'
+  // }
+  return instance.post(url, data, options)
 }
 
 export default http

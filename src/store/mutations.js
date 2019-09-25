@@ -20,6 +20,9 @@ const common = {
   updateMenuList (state, list) {
     state.menuList = list
   },
+  resetStore(state){
+    state.user = {}
+  }
 }
 
 export default {

@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import { getActivityList } from '@/api/activity'
   export default {
     name: 'activityList',
     data(){
@@ -48,6 +49,9 @@
         tableDataLoading: false,
       }
     },
+    mounted() {
+      this.getTableData()
+    },
     methods: {
       tableCellClick(row, column){
         const target = column.property
@@ -55,8 +59,10 @@
           this.$router.push({ name: 'redPocketRecord' })
         }
       },
-      getTableData(){
-
+      async getTableData(params = {}){
+        const pager = { pageIndex: this.pageIndex, pageSize: this.pageSize }
+        const res = await getActivityList({...params,...pager})
+        console.log(res)
       },
       // 每页数
       sizeChangeHandle (val) {
@@ -69,6 +75,16 @@
         this.pageIndex = val
         this.getTableData()
       },
+      handleAction(type, row){
+        switch(type){
+          case 'add':
+            
+            break
+          case 'edit':
+
+            break
+        }
+      }
     },
   }
 </script>

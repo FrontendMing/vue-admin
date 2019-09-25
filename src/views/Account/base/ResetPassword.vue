@@ -13,7 +13,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      <el-button type="primary" @click="submitForm()">确 定</el-button>
     </span>
   </el-dialog>
 </template>
@@ -29,13 +29,24 @@
           againPassword: undefined
         },
         rules: {
-
+          newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
         }
       }
     },
     methods: {
       open(){
         this.dialogVisible = true
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields()
+        })
+      },
+      submitForm(){
+        this.$refs.ruleForm.validate((valid) => {
+          if(valid){
+
+            this.dialogVisible = false
+          }
+        })
       }
     }
   }

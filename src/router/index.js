@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { clearLoginInfo } from '@/utils'
 
 Vue.use(Router)
 
@@ -31,10 +32,10 @@ const mainRoutes = {
     { path: '/staffData', component: _import('Activity/views/StaffData'), name: 'staffData', meta: { title: '员工数据', isTab: true } },
     { path: '/qrcodeList', component: _import('Qrcode/List'), name: 'qrcodeList', meta: { title: '我的二维码', isTab: true } },
     { path: '/account', component: _import('Account'), name: 'account', meta: { title: '账号管理', isTab: true } },
-],
+  ],
   beforeEnter (to, from, next) {
-    let token = '111'
-    if (!token || !/\S/.test(token)) {
+    let token = sessionStorage.getItem('token')
+    if (!token) {
       clearLoginInfo()
       next({ name: 'login' })
     }

@@ -11,8 +11,8 @@
             status-icon
             @keyup.enter.native="dataFormSubmit()"
           >
-            <el-form-item prop="userName">
-              <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
+            <el-form-item prop="username">
+              <el-input v-model="dataForm.username" placeholder="帐号"></el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
@@ -39,25 +39,27 @@
 
 <script>
 import { getUUID } from "@/utils"
+import { login } from '@/api/login'
 export default {
+  mame: 'login',
   data() {
     return {
       dataForm: {
-        userName: "",
+        username: "",
         password: "",
         uuid: "",
         captcha: ""
       },
       dataRule: {
-        userName: [
+        username: [
           { required: true, message: "帐号不能为空", trigger: "blur" }
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" }
         ],
-        captcha: [
-          { required: true, message: "验证码不能为空", trigger: "blur" }
-        ]
+        // captcha: [
+        //   { required: true, message: "验证码不能为空", trigger: "blur" }
+        // ]
       },
       captchaPath: ""
     };
@@ -68,9 +70,14 @@ export default {
   methods: {
     // 提交表单
     dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+      this.$refs["dataForm"].validate(async valid => {
         if (valid) {
-          this.$router.replace({ name: "home" });
+          const res = await login({...this.dataForm})
+          if(res.code == 0){
+            sessionStorage.setItem('token', res.token)
+            this.$router.replace({ name: "home" });
+          }
+          // this.$router.replace({ name: "home" });
           // this.$http({
           //   url: this.$http.adornUrl("/sys/login"),
           //   method: "post",

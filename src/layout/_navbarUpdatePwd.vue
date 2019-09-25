@@ -1,7 +1,8 @@
 <template>
   <el-dialog
     title="修改密码"
-    :visible.sync="visible">
+    :visible.sync="visible"
+    :append-to-body="true">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
       <el-form-item label="账号">
         <span>{{ userName }}</span>
@@ -35,6 +36,8 @@
         }
       }
       return {
+        userName: '',
+
         visible: false,
         dataForm: {
           password: '',
@@ -65,12 +68,11 @@
       }
     },
     methods: {
-      // 初始化
-      init () {
+      open () {
         this.visible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields()
-        })
+        // this.$nextTick(() => {
+        //   this.$refs['dataForm'].resetFields()
+        // })
       },
       // 表单提交
       dataFormSubmit () {

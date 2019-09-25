@@ -24,6 +24,17 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 8080,
+    proxy: 'http://47.107.127.0:8080/bargain',
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://47.107.127.0:8080/bargain',
+    //     ws: true,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   }
+    // }
   },
   parallel: require('os').cpus().length > 1,
 

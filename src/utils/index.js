@@ -11,7 +11,7 @@ export function getUUID () {
 
 // 清除登录信息
 export function clearLoginInfo () {
-  Vue.cookie.delete('token')
+  sessionStorage.removeItem('token')
   store.commit('resetStore')
-  router.options.isAddDynamicMenuRoutes = false
+  // router.options.isAddDynamicMenuRoutes = false
 }

@@ -16,10 +16,6 @@
             <i class="el-icon-folder"></i>
             <span>砍价活动</span>
           </template>
-          <el-menu-item index="add-activity" @click="$router.push({ name: 'addActivity' })">
-            <i class="el-icon-folder"></i>
-            <span slot="title">添加活动</span>
-          </el-menu-item>
           <el-menu-item index="activity-list" @click="$router.push({ name: 'activityList' })">
             <i class="el-icon-folder"></i>
             <span slot="title">活动列表</span>
@@ -92,6 +88,7 @@
     },
     created () {
       this.dynamicMenuRoutes = JSON.parse(sessionStorage.getItem('dynamicMenuRoutes') || '[]')
+      console.log(this.$route)
       this.routeHandle(this.$route)
     },
     methods: {

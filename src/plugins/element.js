@@ -28,8 +28,11 @@ import {
   MessageBox,
   Upload,
   Dialog,
+  Divider,
   Loading,
 } from 'element-ui'
+
+Vue.prototype.$ELEMENT = { size: 'small' };
 
 Vue.use(Icon)
    .use(Row)
@@ -56,9 +59,13 @@ Vue.use(Icon)
    .use(Checkbox)
    .use(Input)
    .use(Select)
-   .use(Message)
-   .use(MessageBox)
    .use(Upload)
    .use(Dialog)
+   .use(Divider)
    .use(Loading)
 
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$message = Message

@@ -2,14 +2,8 @@
   <div>
     <filter-component @search="searchTable()" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
-        <el-form-item prop="name">
-          <el-input type="text" v-model="filterForm.name" placeholder="用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="mobile">
-          <el-input type="text" v-model="filterForm.mobile" placeholder="手机号"></el-input>
-        </el-form-item>
-        <el-form-item prop="status">
-          <el-input type="text" v-model="filterForm.status" placeholder="状态"></el-input>
+        <el-form-item prop="qrcodeName">
+          <el-input type="text" v-model="filterForm.qrcodeName" placeholder="二维码名称"></el-input>
         </el-form-item>
       </el-form>
       <template slot="moreBtns">
@@ -106,11 +100,11 @@
           case 'modify':
             
             break
-          case 'resetPwd':
+          case 'shareSet':
             
             break
           case 'deleteRow':
-            this.$confirm('确定要删除此账号?', '提示', {
+            this.$confirm('确定要删除?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'

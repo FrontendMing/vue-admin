@@ -32,7 +32,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="背景颜色" prop="backgroundColor">
-          <el-input v-model="ruleForm.backgroundColor" @focus="bgColorShow = !bgColorShow" placeholder="背景颜色"></el-input>
+          <el-input v-model="ruleForm.backgroundColor" @focus="bgColorShow=!bgColorShow;btnColorShow=false" placeholder="背景颜色"></el-input>
           <photoshop 
             style="position: absolute;z-index: 100;" 
             v-show="bgColorShow" 
@@ -42,7 +42,7 @@
             @cancel="bgColorShow = false"></photoshop>
         </el-form-item>
         <el-form-item label="按钮颜色" prop="buttonColor">
-          <el-input v-model="ruleForm.buttonColor" @focus="btnColorShow = !btnColorShow" placeholder="按钮颜色"></el-input>
+          <el-input v-model="ruleForm.buttonColor" @focus="btnColorShow=!btnColorShow;bgColorShow=false" placeholder="按钮颜色"></el-input>
           <photoshop 
             style="position: absolute;z-index: 100;" 
             v-show="btnColorShow" 

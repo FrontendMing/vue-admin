@@ -8,31 +8,59 @@
         class="site-sidebar__menu"
       >
         <el-menu-item index="home" @click="$router.push({ name: 'home' })">
+<<<<<<< HEAD
           <i class="el-icon-folder"></i>
+=======
+          <i class="el-icon-house"></i>
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           <span slot="title">首页</span>
         </el-menu-item>
         <el-submenu index="activity">
           <template slot="title">
+<<<<<<< HEAD
             <i class="el-icon-folder"></i>
             <span>砍价活动</span>
           </template>
           <el-menu-item index="activity-list" @click="$router.push({ name: 'activityList' })">
             <i class="el-icon-folder"></i>
+=======
+            <i class="el-icon-discount"></i>
+            <span>砍价活动</span>
+          </template>
+          <el-menu-item index="add-activity" @click="$router.push({ name: 'addActivity' })">
+            <i class="el-icon-folder-add"></i>
+            <span slot="title">添加活动</span>
+          </el-menu-item>
+          <el-menu-item index="activity-list" @click="$router.push({ name: 'activityList' })">
+            <i class="el-icon-notebook-2"></i>
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
             <span slot="title">活动列表</span>
           </el-menu-item>
         </el-submenu>
         <el-submenu index="qrcode">
           <template slot="title">
+<<<<<<< HEAD
             <i class="el-icon-folder"></i>
             <span>二维码管理</span>
           </template>
           <el-menu-item index="qrcode-list" @click="$router.push({ name: 'qrcodeList' })">
             <i class="el-icon-folder"></i>
+=======
+            <i class="el-icon-folder-opened"></i>
+            <span>二维码管理</span>
+          </template>
+          <el-menu-item index="qrcode-list" @click="$router.push({ name: 'qrcodeList' })">
+            <i class="el-icon-full-screen"></i>
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
             <span slot="title">我的二维码</span>
           </el-menu-item>
         </el-submenu>
         <el-menu-item index="account" @click="$router.push({ name: 'account' })">
+<<<<<<< HEAD
           <i class="el-icon-folder"></i>
+=======
+          <i class="el-icon-unlock"></i>
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           <span slot="title">账号管理</span>
         </el-menu-item>
         <sub-menu
@@ -88,7 +116,10 @@
     },
     created () {
       this.dynamicMenuRoutes = JSON.parse(sessionStorage.getItem('dynamicMenuRoutes') || '[]')
+<<<<<<< HEAD
       console.log(this.$route)
+=======
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
       this.routeHandle(this.$route)
     },
     methods: {

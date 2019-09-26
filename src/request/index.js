@@ -1,4 +1,5 @@
 import axios from 'axios'
+<<<<<<< HEAD
 import store from '@/store'
 
 const http = {}
@@ -7,6 +8,17 @@ const baseUrl = process.env.NODE_ENV === 'production' ? '/' : '/api'
 var instance = axios.create({
   timeout: 5000,
   baseUrl,
+=======
+import qs from 'qs'
+import store from '@/store'
+
+const http = {}
+const baseUrl = '/'
+
+let instance = axios.create({
+  timeout: 5000,
+  baseUrl: baseUrl,
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
   validateStatus(status) {
     switch (status) {
       case 400:
@@ -37,9 +49,16 @@ var instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // 请求头添加token
+<<<<<<< HEAD
     if (store.state.UserToken) {
       config.headers.Authorization = `${store.state.UserToken}`
     }
+=======
+    if (sessionStorage.getItem('token')) {
+      config.headers.token = sessionStorage.getItem('token')
+    }
+    config.data = config.data && qs.stringify(config.data)
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
     return config
   },
   function (error) {
@@ -70,6 +89,7 @@ http.get = function (url, options) {
     loading = document.getElementById('ajaxLoading')
     loading.style.display = 'block'
   }
+<<<<<<< HEAD
   return new Promise((resolve, reject) => {
     instance
       .get(url, options)
@@ -91,10 +111,14 @@ http.get = function (url, options) {
         console.log(e)
       })
   })
+=======
+  return instance.get(url, options)
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
 }
 
 http.post = function (url, data, options) {
   let loading
+<<<<<<< HEAD
   if (!options || options.isShowLoading !== false) {
     loading = document.getElementById('ajaxLoading')
     loading.style.display = 'block'
@@ -120,6 +144,13 @@ http.post = function (url, data, options) {
         console.log(e)
       })
   })
+=======
+  // if (!options || options.isShowLoading !== false) {
+  //   loading = document.getElementById('ajaxLoading')
+  //   loading.style.display = 'block'
+  // }
+  return instance.post(url, data, options)
+>>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
 }
 
 export default http

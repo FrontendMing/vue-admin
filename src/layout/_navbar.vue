@@ -73,20 +73,13 @@
       updatePasswordHandle () {
         this.updatePassowrdVisible = true
         this.$nextTick(() => {
-<<<<<<< HEAD
-          this.$refs.updatePassowrd.init()
-=======
           this.$refs.updatePassowrd.open()
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         })
       },
       // 退出
       logoutHandle () {
-<<<<<<< HEAD
-=======
         clearLoginInfo()
         this.$router.push({ name: 'login' })
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         // this.$confirm(`确定进行[退出]操作?`, '提示', {
         //   confirmButtonText: '确定',
         //   cancelButtonText: '取消',

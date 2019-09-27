@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-dialog
-<<<<<<< HEAD
-      title="创建二维码"
-=======
       :title="title"
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
       :visible.sync="dialogVisible"
       width="820px">
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
@@ -36,11 +32,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="背景颜色" prop="backgroundColor">
-<<<<<<< HEAD
-          <el-input v-model="ruleForm.backgroundColor" @focus="bgColorShow=!bgColorShow;btnColorShow=false" placeholder="背景颜色"></el-input>
-=======
           <el-input v-model="ruleForm.backgroundColor" @focus="bgColorShow = !bgColorShow" placeholder="背景颜色"></el-input>
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           <photoshop 
             style="position: absolute;z-index: 100;" 
             v-show="bgColorShow" 
@@ -50,11 +42,7 @@
             @cancel="bgColorShow = false"></photoshop>
         </el-form-item>
         <el-form-item label="按钮颜色" prop="buttonColor">
-<<<<<<< HEAD
-          <el-input v-model="ruleForm.buttonColor" @focus="btnColorShow=!btnColorShow;bgColorShow=false" placeholder="按钮颜色"></el-input>
-=======
           <el-input v-model="ruleForm.buttonColor" @focus="btnColorShow = !btnColorShow" placeholder="按钮颜色"></el-input>
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           <photoshop 
             style="position: absolute;z-index: 100;" 
             v-show="btnColorShow" 
@@ -75,11 +63,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-<<<<<<< HEAD
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-=======
         <el-button type="primary" @click="dialogVisible = false">提 交</el-button>
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
       </span>
     </el-dialog>
 
@@ -99,10 +83,7 @@
     },
     data(){
       return {
-<<<<<<< HEAD
-=======
         title: undefined,
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         dialogVisible: false,
         previewVisible: false,
         dialogImageUrl: undefined,
@@ -123,16 +104,12 @@
       }
     },
     methods: {
-<<<<<<< HEAD
-      open(){
-=======
       open(payload){
         if(!payload){ // 添加
           this.title = '创建二维码'
         }else{ // 修改
           this.title = '修改二维码信息'
         }
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         this.dialogVisible = true
       },
       handleRemove(file, fileList) {

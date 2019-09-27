@@ -11,13 +11,8 @@
             status-icon
             @keyup.enter.native="dataFormSubmit()"
           >
-<<<<<<< HEAD
-            <el-form-item prop="userName">
-              <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
-=======
             <el-form-item prop="username">
               <el-input v-model="dataForm.username" placeholder="帐号"></el-input>
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
             </el-form-item>
             <el-form-item prop="password">
               <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
@@ -44,13 +39,6 @@
 
 <script>
 import { getUUID } from "@/utils"
-<<<<<<< HEAD
-export default {
-  data() {
-    return {
-      dataForm: {
-        userName: "",
-=======
 import { login } from '@/api/login'
 export default {
   mame: 'login',
@@ -58,31 +46,20 @@ export default {
     return {
       dataForm: {
         username: "",
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         password: "",
         uuid: "",
         captcha: ""
       },
       dataRule: {
-<<<<<<< HEAD
-        userName: [
-=======
         username: [
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           { required: true, message: "帐号不能为空", trigger: "blur" }
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" }
         ],
-<<<<<<< HEAD
-        captcha: [
-          { required: true, message: "验证码不能为空", trigger: "blur" }
-        ]
-=======
         // captcha: [
         //   { required: true, message: "验证码不能为空", trigger: "blur" }
         // ]
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
       },
       captchaPath: ""
     };
@@ -93,11 +70,6 @@ export default {
   methods: {
     // 提交表单
     dataFormSubmit() {
-<<<<<<< HEAD
-      this.$refs["dataForm"].validate(valid => {
-        if (valid) {
-          this.$router.replace({ name: "home" });
-=======
       this.$refs["dataForm"].validate(async valid => {
         if (valid) {
           const res = await login({...this.dataForm})
@@ -106,7 +78,6 @@ export default {
             this.$router.replace({ name: "home" });
           }
           // this.$router.replace({ name: "home" });
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
           // this.$http({
           //   url: this.$http.adornUrl("/sys/login"),
           //   method: "post",

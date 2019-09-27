@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-<<<<<<< HEAD
-=======
 import { clearLoginInfo } from '@/utils'
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
 
 Vue.use(Router)
 
@@ -29,16 +26,6 @@ const mainRoutes = {
     // 2. iframeUrl: 是否通过iframe嵌套展示内容, '以http[s]://开头': 是, '': 否
     // 提示: 如需要通过iframe嵌套展示内容, 但不通过tab打开, 请自行创建组件使用iframe处理!
     { path: '/home', component: _import('Home'), name: 'home', meta: { title: '首页' } },
-<<<<<<< HEAD
-    { path: '/activityList', component: _import('Activity/List'), name: 'activityList', meta: { title: '活动列表', isTab: true } },
-    { path: '/qrcodeList', component: _import('Qrcode/List'), name: 'qrcodeList', meta: { title: '我的二维码', isTab: true } },
-    { path: '/account', component: _import('Account'), name: 'account', meta: { title: '账号管理', isTab: true } },
-],
-  beforeEnter (to, from, next) {
-    let token = '111'
-    if (!token || !/\S/.test(token)) {
-=======
-    { path: '/addActivity', component: _import('Activity/Add'), name: 'addActivity', meta: { title: '添加活动', isTab: true } },
     { path: '/activityList', component: _import('Activity/List'), name: 'activityList', meta: { title: '活动列表', isTab: true } },
     { path: '/redPocketRecord', component: _import('Activity/views/RedPocketRecord'), name: 'redPocketRecord', meta: { title: '红包记录', isTab: true } },
     { path: '/staffData', component: _import('Activity/views/StaffData'), name: 'staffData', meta: { title: '员工数据', isTab: true } },
@@ -48,7 +35,6 @@ const mainRoutes = {
   beforeEnter (to, from, next) {
     let token = sessionStorage.getItem('token')
     if (!token) {
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
       clearLoginInfo()
       next({ name: 'login' })
     }

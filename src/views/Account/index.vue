@@ -15,15 +15,6 @@
     </filter-component>
 
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
-<<<<<<< HEAD
-      <el-table-column type="index" header-align="center" align="center" width="60" label="序号" show-overflow-tooltip/>
-      <el-table-column prop="name" header-align="center" align="center" label="用户名" show-overflow-tooltip/>
-      <el-table-column prop="mobile" header-align="center" align="center" label="手机号" show-overflow-tooltip/>
-      <el-table-column prop="status" header-align="center" align="center" label="状态" show-overflow-tooltip>
-        <template slot-scope="scope">{{ scope.row.status | formatStatus }}</template>
-      </el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
-=======
       <el-table-column type="index" align="center" width="60" label="序号" show-overflow-tooltip/>
       <el-table-column prop="name" align="center" label="用户名" show-overflow-tooltip/>
       <el-table-column prop="mobile" align="center" label="手机号" show-overflow-tooltip/>
@@ -33,7 +24,6 @@
         </template>
       </el-table-column>
       <el-table-column fixed="right" align="center" width="150" label="操作">
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleAction('modify', scope.row)">修改</el-button>
           <el-button type="text" size="small" @click="handleAction('resetPwd', scope.row)">重置密码</el-button>

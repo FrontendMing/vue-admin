@@ -24,26 +24,17 @@ import {
   Checkbox,
   Input,
   Select,
-<<<<<<< HEAD
-=======
   Option,
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
   Message,
   MessageBox,
   Upload,
   Dialog,
-<<<<<<< HEAD
   Divider,
   Loading,
 } from 'element-ui'
 
 Vue.prototype.$ELEMENT = { size: 'small' };
 
-=======
-  Loading,
-} from 'element-ui'
-
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
 Vue.use(Icon)
    .use(Row)
    .use(Col)
@@ -69,7 +60,6 @@ Vue.use(Icon)
    .use(Checkbox)
    .use(Input)
    .use(Select)
-<<<<<<< HEAD
    .use(Upload)
    .use(Dialog)
    .use(Divider)
@@ -80,15 +70,3 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$message = Message
-=======
-   .use(Option)
-   .use(Upload)
-   .use(Dialog)
-   .use(Loading)
-
-Vue.prototype.$message = Message
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$alert = MessageBox.alert
-Vue.prototype.$prompt = MessageBox.prompt
-
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318

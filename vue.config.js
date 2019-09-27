@@ -24,8 +24,6 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 8080,
-<<<<<<< HEAD
-=======
     proxy: 'http://47.107.127.0:8080/bargain',
     // proxy: {
     //   '/api': {
@@ -37,7 +35,6 @@ module.exports = {
     //     }
     //   }
     // }
->>>>>>> 33a693a0674ff4e5515db10f0e09309c959ae318
   },
   parallel: require('os').cpus().length > 1,
 

@@ -3,11 +3,9 @@ import qs from 'qs'
 import store from '@/store'
 
 const http = {}
-const baseUrl = '/'
 
 let instance = axios.create({
   timeout: 5000,
-  baseUrl: baseUrl,
   validateStatus(status) {
     switch (status) {
       case 400:

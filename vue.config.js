@@ -21,21 +21,21 @@ module.exports = {
     loaderOptions: {},
     modules: false,
   },
+  baseUrl: process.env.NODE_ENV === 'production' ? '/' : '/',
   devServer: {
     host: '0.0.0.0',
     port: 8080,
-    proxy: 'http://47.107.127.0:8080/bargain',
-    // proxy: {
+    proxy: 'http://47.107.127.0:8080/bargain', // 配置一个代理
+    // proxy: { // 配置多个代理
     //   '/api': {
-    //     target: 'http://47.107.127.0:8080/bargain',
+    //     target: '<url>',
     //     ws: true,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
+    //     changeOrigin: true
+    //   },
+    //   '/foo': {
+    //     target: '<other_url>'
     //   }
-    // }
+    // },
   },
   parallel: require('os').cpus().length > 1,
-
 }

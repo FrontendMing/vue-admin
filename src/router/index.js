@@ -31,6 +31,7 @@ const mainRoutes = {
     { path: '/staffData', component: _import('Activity/views/StaffData'), name: 'staffData', meta: { title: '员工数据', isTab: true } },
     { path: '/qrcodeList', component: _import('Qrcode/List'), name: 'qrcodeList', meta: { title: '我的二维码', isTab: true } },
     { path: '/account', component: _import('Account'), name: 'account', meta: { title: '账号管理', isTab: true } },
+    { path: '/outlets', component: _import('Outlets'), name: 'outlets', meta: { title: '门店管理', isTab: true } },
   ],
   beforeEnter (to, from, next) {
     let token = sessionStorage.getItem('token')

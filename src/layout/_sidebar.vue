@@ -35,6 +35,10 @@
           <i class="el-icon-unlock"></i>
           <span slot="title">账号管理</span>
         </el-menu-item>
+        <el-menu-item index="outlets" @click="$router.push({ name: 'outlets' })">
+          <i class="el-icon-box"></i>
+          <span slot="title">门店管理</span>
+        </el-menu-item>
         <sub-menu
           v-for="menu in menuList"
           :key="menu.menuId"

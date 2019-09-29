@@ -39,7 +39,10 @@ instance.interceptors.request.use(
     if (sessionStorage.getItem('token')) {
       config.headers.token = sessionStorage.getItem('token')
     }
-    config.data = config.data && qs.stringify(config.data)
+    // 默认以表单格式提交，jsonType=true表示以 json 格式提交
+    if(config.data && !config.data.jsonType){
+      config.data = config.data && qs.stringify(config.data)
+    }
     return config
   },
   function (error) {
@@ -66,10 +69,10 @@ instance.interceptors.response.use(
 
 http.get = function (url, options) {
   let loading
-  if (!options || options.isShowLoading !== false) {
-    loading = document.getElementById('ajaxLoading')
-    loading.style.display = 'block'
-  }
+  // if (!options || options.isShowLoading !== false) {
+  //   loading = document.getElementById('ajaxLoading')
+  //   loading.style.display = 'block'
+  // }
   return instance.get(url, options)
 }
 

@@ -2,6 +2,7 @@
   <el-dialog
     :title="title"
     :visible.sync="dialogVisible"
+    :close-on-click-modal="false"
     width="830px">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="130px">
       <el-form-item label="活动码" prop="activityCode">
@@ -19,10 +20,10 @@
       <el-form-item label="音乐" prop="activityCode">
         <el-input v-model="ruleForm.activityCode" placeholder="音乐"></el-input>
       </el-form-item>
-      <el-form-item label="背影颜色" prop="activityCode">
-        <el-input v-model="ruleForm.backgroundColor" @focus="bgColorShow=!bgColorShow;btnColorShow=false" placeholder="背景颜色"></el-input>
+      <el-form-item label="背影颜色" prop="backgroundColor">
+        <el-input v-model="ruleForm.backgroundColor" clearable @clear="clearPhotoshop('backgroundColor')" @focus="bgColorShow=!bgColorShow;btnColorShow=false" placeholder="背景颜色"></el-input>
         <photoshop 
-          style="position: absolute;z-index: 100;" 
+          style="position: absolute;z-index: 100;right: 0;" 
           v-show="bgColorShow" 
           v-model="colors" 
           @input="updateValue"
@@ -30,7 +31,7 @@
           @cancel="bgColorShow = false"></photoshop>
       </el-form-item>
       <el-form-item label="按钮颜色" prop="activityCode">
-        <el-input v-model="ruleForm.buttonColor" @focus="btnColorShow=!btnColorShow;bgColorShow=false" placeholder="按钮颜色"></el-input>
+        <el-input v-model="ruleForm.buttonColor" clearable @clear="clearPhotoshop('buttonColor')"  @focus="btnColorShow=!btnColorShow;bgColorShow=false" placeholder="按钮颜色"></el-input>
         <photoshop 
           style="position: absolute;z-index: 100;" 
           v-show="btnColorShow" 
@@ -134,6 +135,9 @@
       },
       changeDetailContent(html){
         this.ruleForm.activityDetails = html
+      },
+      clearPhotoshop(prop){
+        this.ruleForm[prop] = ''
       },
       submitForm(){
 

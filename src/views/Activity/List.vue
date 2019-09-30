@@ -14,13 +14,14 @@
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
       <el-table-column type="index" align="center" width="60" label="序号" show-overflow-tooltip/>
       <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip/>
-      <el-table-column prop="outletsName" align="center" label="门店" show-overflow-tooltip/>
+      <el-table-column prop="companyName" align="center" label="门店" show-overflow-tooltip/>
       <el-table-column prop="activityName" align="center" label="活动名称" show-overflow-tooltip/>
-      <el-table-column prop="deadline" align="center" label="到期时间" show-overflow-tooltip/>
-      <el-table-column prop="goodsNum" align="center" label="商品数" show-overflow-tooltip/>
+      <el-table-column prop="startTime" align="center" label="开始时间" show-overflow-tooltip/>
+      <el-table-column prop="endTime" align="center" label="到期时间" show-overflow-tooltip/>
+      <el-table-column prop="goodsTotal" align="center" label="商品数" show-overflow-tooltip/>
       <el-table-column prop="carousel" align="center" label="今/总(报名数)" min-width="120" show-overflow-tooltip/>
       <el-table-column prop="links" align="center" label="今/总(浏览量)" min-width="120" show-overflow-tooltip/>
-      <el-table-column prop="activityLink" align="center" label="活动链接" show-overflow-tooltip/>
+      <el-table-column prop="pageUrl" align="center" label="活动链接" show-overflow-tooltip/>
       <el-table-column prop="activityDetail" align="center" label="报名信息" show-overflow-tooltip/>
       <el-table-column prop="staffData" align="center" label="员工数据" show-overflow-tooltip/>
       <el-table-column prop="dataAnalyz" align="center" label="数据分析" show-overflow-tooltip/>
@@ -67,6 +68,7 @@
   import CreateActivity from './base/CreateActivity'
   import ShareSetting from './base/ShareSetting'
   import RedPacketRules from './base/RedPacketRules'
+  import { getActivityList } from '@/api/activity'
   export default {
     components: {
       // ResetPassword,
@@ -101,6 +103,9 @@
         return val === 1 ? '可用' : '不可用'
       }
     },
+    mounted() {
+      this.getTableData()
+    },
     methods: {
       searchTable(){
 
@@ -108,8 +113,16 @@
       resetForm(){
 
       },
-      getTableData(){
-
+      async getTableData(params = {}){
+        const pager = `pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+        const res = await getActivityList(pager, {jsonType: true, ...params})
+        if(res.code == 0){
+          const { list, currPage, pageSize, totalCount } = res.data
+          this.tableData = list
+          this.pageIndex = currPage
+          this.pageSize = pageSize
+          this.totalPage = totalCount
+        }
       },
       update(){
 

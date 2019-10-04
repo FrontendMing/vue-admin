@@ -2,10 +2,10 @@
   <el-dialog
     title="修改账号信息"
     :visible.sync="dialogVisible"
-    width="30%">
+    width="700px">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
-      <el-form-item label="用户名" prop="name">
-        <el-input v-model="ruleForm.name" placeholder="用户名"></el-input>
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="ruleForm.username" placeholder="用户名"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="手机号"></el-input>
@@ -25,37 +25,65 @@
 </template>
 
 <script>
+  import { addAccount, updateAccount } from '@/api/account'
   export default {
     data(){
       return {
         dialogVisible: false,
 
         ruleForm: {
-          name: undefined,
+          username: undefined,
           mobile: undefined,
           status: undefined
         },
         rules: {
-          name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
           mobile: [
             { required: true, message: '请输入手机号', trigger: 'blur' },
             { pattern: /^1[3456789]\d{9}$/, message: '手机号有误', trigger: 'blur' }
           ],
-          status: [{ required: true, message: '请选择状态', trigger: 'blur, change' }]
-        }
+        },
+        type: 'add'
       }
     },
     methods: {
-      open(){
+      open(payload){
         this.dialogVisible = true
-        this.$nextTick(() => {
-          this.$refs.ruleForm.resetFields()
-        })
+        if(payload){
+          this.type = 'edit'
+          this.title = '修改账号'
+          const { username, mobile, userId } = payload
+          Object.assign(this.ruleForm, { username, mobile, userId })
+        }else{
+          this.type = 'add'
+          this.title = '新增账号'
+          this.$nextTick(() => {
+            this.$refs.ruleForm.resetFields()
+            this.ruleForm.userId = ''
+          })
+        }
+      },
+      close(){
+        this.dialogVisible = false
+        this.$refs.ruleForm.resetFields()
+        this.$emit('update', this.type)
       },
       submitForm(){
-        this.$refs['ruleForm'].validate((valid) => {
+        this.$refs['ruleForm'].validate(async (valid) => {
           if (valid) {
-
+            if(this.type === 'add'){
+              const res = await addAccount(this.ruleForm)
+              if(res.code === 0){
+                this.$message.success('添加账号成功！')
+                this.close()
+              }
+            }else{
+              const res = await updateAccount(this.ruleForm)
+              if(res.code === 0){
+                this.$message.success('修改账号成功！')
+                this.close()
+              }
+            }
             this.dialogVisible = false
           }
         })

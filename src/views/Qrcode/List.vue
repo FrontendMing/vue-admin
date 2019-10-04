@@ -47,10 +47,10 @@
     </el-pagination>
 
     <!-- 创建二维码 -->
-    <add-qrcode v-if="addQrcodeVisible" ref="addQrcodeBox" @update="update"></add-qrcode>
+    <add-qrcode v-if="addQrcodeVisible" ref="addQrcodeBox"></add-qrcode>
 
     <!-- 分享设置 -->
-    <share-setting v-if="shareSettingVisible" ref="shareSettingBox" @update="update"></share-setting>
+    <share-setting v-if="shareSettingVisible" ref="shareSettingBox"></share-setting>
 
   </div>
 </template>
@@ -58,8 +58,11 @@
 <script>
   import AddQrcode from './base/AddQrcode'
   import ShareSetting from './base/ShareSetting'
+  import { getQrcodeList } from '@/api/qrcode'
+  import { PageInit } from '@/views/common/mixins/PageInit.js'
   export default {
-    name: 'qrcodeList',
+    name: 'qrcode',
+    mixins: [ PageInit ],
     components: {
       AddQrcode,
       ShareSetting
@@ -68,15 +71,6 @@
       return {
         filterForm: {},
 
-        pageIndex: 1,
-        pageSize: 10,
-        totalPage: 0,
-        tableData: [{
-          name: '瓜皮',
-          mobile: '13533338888',
-          status: 1
-        }],
-        tableDataLoading: false,
         addQrcodeVisible: false,
         shareSettingVisible: false,
       }
@@ -87,18 +81,18 @@
       }
     },
     methods: {
-      searchTable(){
-
+      async getTableData(params = {}){
+        const pager = `pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+        const res = await getQrcodeList(pager, params)
+        if(res.code == 0){
+          const { list, currPage, pageSize, totalCount } = res.data
+          this.tableData = list
+          this.pageIndex = currPage
+          this.pageSize = pageSize
+          this.totalPage = totalCount
+        }
       },
-      resetForm(){
-
-      },
-      getTableData(){
-
-      },
-      update(){
-
-      },
+      // 操作
       handleAction(type, row){
         switch(type){
           case 'add':
@@ -131,17 +125,6 @@
             })
             break
         }
-      },
-      // 每页数
-      sizeChangeHandle (val) {
-        this.pageSize = val
-        this.pageIndex = 1
-        this.getTableData()
-      },
-      // 当前页
-      currentChangeHandle (val) {
-        this.pageIndex = val
-        this.getTableData()
       },
     }
   }

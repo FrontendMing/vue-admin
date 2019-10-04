@@ -21,7 +21,7 @@
             <span slot="title">活动列表</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="qrcode">
+        <!-- <el-submenu index="qrcode">
           <template slot="title">
             <i class="el-icon-folder-opened"></i>
             <span>二维码管理</span>
@@ -30,7 +30,7 @@
             <i class="el-icon-full-screen"></i>
             <span slot="title">我的二维码</span>
           </el-menu-item>
-        </el-submenu>
+        </el-submenu> -->
         <el-menu-item index="account" @click="$router.push({ name: 'account' })">
           <i class="el-icon-unlock"></i>
           <span slot="title">账号管理</span>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <filter-component @search="searchTable()" @reset="resetForm('filterForm')">
+    <filter-component @search="searchTable('filterForm')" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
         <el-form-item prop="name">
           <el-input type="text" v-model="filterForm.name" placeholder="用户名"></el-input>
@@ -12,11 +12,14 @@
           <el-input type="text" v-model="filterForm.status" placeholder="状态"></el-input>
         </el-form-item>
       </el-form>
+      <template slot="moreBtns">
+        <el-button type="success" icon="el-icon-plus" @click="handleAction('add')">新增</el-button>
+      </template>
     </filter-component>
 
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
       <el-table-column type="index" align="center" width="60" label="序号" show-overflow-tooltip/>
-      <el-table-column prop="name" align="center" label="用户名" show-overflow-tooltip/>
+      <el-table-column prop="username" align="center" label="用户名" show-overflow-tooltip/>
       <el-table-column prop="mobile" align="center" label="手机号" show-overflow-tooltip/>
       <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
         <template slot-scope="scope">
@@ -53,7 +56,12 @@
 <script>
   import ModifyAccount from './base/ModifyAccount'
   import ResetPassword from './base/ResetPassword'
+  import { getAccountList } from '@/api/account'
+  import { PageInit } from '@/views/common/mixins/PageInit'
+  import { delAccount } from '@/api/account'
   export default {
+    name: 'account',
+    mixins: [ PageInit ],
     components: {
       ModifyAccount,
       ResetPassword,
@@ -62,15 +70,6 @@
       return {
         filterForm: {},
 
-        pageIndex: 1,
-        pageSize: 10,
-        totalPage: 0,
-        tableData: [{
-          name: '瓜皮',
-          mobile: '13533338888',
-          status: 1
-        }],
-        tableDataLoading: false,
         modifyAccountVisible: false,
         resetPasswordVisible: false,
       }
@@ -81,20 +80,25 @@
       }
     },
     methods: {
-      searchTable(){
-
-      },
-      resetForm(){
-
-      },
-      getTableData(){
-
-      },
-      update(){
-
+      async getTableData(params = {}){
+        const pager = `pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+        const res = await getAccountList(pager, params)
+        if(res.code == 0){
+          const { list, pageNum, pageSize, total } = res.data
+          this.tableData = list
+          this.pageIndex = pageNum
+          this.pageSize = pageSize
+          this.totalPage = total
+        }
       },
       handleAction(type, row){
         switch(type){
+          case 'add':
+            this.modifyAccountVisible = true
+            this.$nextTick(() => {
+              this.$refs.modifyAccountBox.open()
+            })
+            break
           case 'modify':
             this.modifyAccountVisible = true
             this.$nextTick(() => {
@@ -112,25 +116,17 @@
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
-            }).then(() => {
-              this.$message.success('删除成功!')
+            }).then(async () => {
+              const res = await delAccount({ userIds: row.userId })
+              if(res.code === 0){
+                this.$message.success('删除成功!')
+                this.update()
+              }
             }).catch(() => {
                   
             })
             break
-
         }
-      },
-      // 每页数
-      sizeChangeHandle (val) {
-        this.pageSize = val
-        this.pageIndex = 1
-        this.getTableData()
-      },
-      // 当前页
-      currentChangeHandle (val) {
-        this.pageIndex = val
-        this.getTableData()
       },
     }
   }

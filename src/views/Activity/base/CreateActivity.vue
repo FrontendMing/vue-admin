@@ -118,8 +118,8 @@
       }
     },
     methods: {
-      open(id){
-        this.title = !id ? '添加活动' : '修改活动'
+      open(activityId){
+        this.title = !activityId ? '创建活动' : '修改活动'
         this.dialogVisible = true
       },
       updateValue(val){

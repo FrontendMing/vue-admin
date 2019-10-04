@@ -1,26 +1,29 @@
 <template>
   <div>
-    <filter-component @search="searchTable()" @reset="resetForm('filterForm')">
+    <filter-component @search="searchTable('filterForm')" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
-        <el-form-item prop="name">
-          <el-input type="text" v-model="filterForm.name" placeholder="用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="mobile">
-          <el-input type="text" v-model="filterForm.mobile" placeholder="手机号"></el-input>
+        <el-form-item prop="storeName">
+          <el-input type="text" v-model="filterForm.storeName" placeholder="用户名"></el-input>
         </el-form-item>
         <el-form-item prop="status">
-          <el-input type="text" v-model="filterForm.status" placeholder="状态"></el-input>
+          <el-select v-model="filterForm.status" placeholder="状态">
+            <el-option label="启用" value="1"></el-option>
+            <el-option label="关闭" value="-1"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
+      <template slot="moreBtns">
+        <el-button type="success" icon="el-icon-plus" @click="handleAction('add')">新增</el-button>
+      </template>
     </filter-component>
 
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
       <el-table-column type="index" align="center" width="60" label="序号" show-overflow-tooltip/>
-      <el-table-column prop="name" align="center" label="用户名" show-overflow-tooltip/>
-      <el-table-column prop="mobile" align="center" label="手机号" show-overflow-tooltip/>
+      <el-table-column prop="storeName" align="center" label="门店名称" show-overflow-tooltip/>
+      <el-table-column prop="storeName" align="center" label="登录账号" show-overflow-tooltip/>
       <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip>
         <template slot-scope="scope">
-          {{ scope.row.status | formatStatus }}
+          {{ scope.row.status || '-' }}
         </template>
       </el-table-column>
       <el-table-column fixed="right" align="center" width="150" label="操作">
@@ -42,65 +45,56 @@
     </el-pagination>
 
     <!-- 修改 -->
-    <modify-account v-if="modifyAccountVisible" ref="modifyAccountBox" @update="update"></modify-account>
+    <modify-outlets v-if="modifyOutletsVisible" ref="modifyOutletsBox"></modify-outlets>
 
   </div>
 </template>
 
 <script>
-  import ModifyAccount from './base/ModifyAccount'
+  import ModifyOutlets from './base/ModifyOutlets'
+  import { getOutletsList } from '@/api/outlets'
+  import { PageInit } from '@/views/common/mixins/PageInit.js'
   export default {
     name: 'outlets',
+    mixins: [ PageInit ],
     components: {
-      ModifyAccount,
+      ModifyOutlets,
     },
     data(){
       return {
-        filterForm: {},
+        filterForm: {
+          storeName: undefined,
+          status: undefined
+        },
 
-        pageIndex: 1,
-        pageSize: 10,
-        totalPage: 0,
-        tableData: [{
-          name: '瓜皮',
-          mobile: '13533338888',
-          status: 1
-        }],
-        tableDataLoading: false,
-        modifyAccountVisible: false,
-        resetPasswordVisible: false,
-      }
-    },
-    filters: {
-      formatStatus(val){
-        return val === 1 ? '可用' : '不可用'
+        modifyOutletsVisible: false,
       }
     },
     methods: {
-      searchTable(){
-
+      async getTableData(params = {}){
+        const pager = `pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+        const res = await getOutletsList(pager, params)
+        if(res.code == 0){
+          const { list, currPage, pageSize, totalCount } = res.data
+          this.tableData = list
+          this.pageIndex = currPage
+          this.pageSize = pageSize
+          this.totalPage = totalCount
+        }
       },
-      resetForm(){
-
-      },
-      getTableData(){
-
-      },
-      update(){
-
-      },
+      // 操作
       handleAction(type, row){
         switch(type){
-          case 'modify':
-            this.modifyAccountVisible = true
+          case 'add':
+            this.modifyOutletsVisible = true
             this.$nextTick(() => {
-              this.$refs.modifyAccountBox.open(row)
+              this.$refs.modifyOutletsBox.open()
             })
             break
-          case 'resetPwd':
-            this.resetPasswordVisible = true
+          case 'modify':
+            this.modifyOutletsVisible = true
             this.$nextTick(() => {
-              this.$refs.resetPasswordBox.open(row)
+              this.$refs.modifyOutletsBox.open(row)
             })
             break
           case 'deleteRow':
@@ -114,19 +108,7 @@
                   
             })
             break
-
         }
-      },
-      // 每页数
-      sizeChangeHandle (val) {
-        this.pageSize = val
-        this.pageIndex = 1
-        this.getTableData()
-      },
-      // 当前页
-      currentChangeHandle (val) {
-        this.pageIndex = val
-        this.getTableData()
       },
     }
   }

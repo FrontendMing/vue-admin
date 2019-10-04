@@ -1,14 +1,14 @@
 @import "normalize";
+@import "element-variables";
 @import "variables"; 
 @import "base";
 
-[role="dialog"]{
+[role="dialog"].el-dialog{
   margin-top: 50px!important;
   max-height: calc(100vh - 100px);
   overflow: hidden;
   position: relative;
   padding-top: 54px;
-  padding-bottom: 70px;
   .el-dialog__header{
     width: 100%;
     position: absolute;
@@ -19,7 +19,8 @@
   }
   .el-dialog__body{
     width: 100%;
-    height: calc(100vh - 224px);
+    min-height: 300px;
+    max-height: calc(100vh - 224px);
     overflow-y: auto;
     &::-webkit-scrollbar{ // 滚动条整体部分,必须要设置
       width: 4px;

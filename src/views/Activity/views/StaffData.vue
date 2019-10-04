@@ -15,15 +15,10 @@
     </filter-component>
 
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
-      <el-table-column type="index" header-align="center" align="center" label="序号" width="60" show-overflow-tooltip/>
-      <el-table-column type="flag" header-align="center" align="center" label="标识" min-width="100" show-overflow-tooltip/>
-      <el-table-column type="time" header-align="center" align="center" label="时间" min-width="120" show-overflow-tooltip/>
-      <el-table-column type="type" header-align="center" align="center" label="类型" min-width="100" show-overflow-tooltip/>
-      <el-table-column type="amount" header-align="center" align="center" label="金额" min-width="100" show-overflow-tooltip/>
-      <el-table-column type="recommended" header-align="center" align="center" label="被推荐人" min-width="100" show-overflow-tooltip/>
-      <el-table-column type="recommendedMobile" header-align="center" align="center" label="被推荐人手机号" min-width="120" show-overflow-tooltip/>
-      <el-table-column type="referrer" header-align="center" align="center" label="推荐人" min-width="100" show-overflow-tooltip/>
-      <el-table-column type="referrerMobile" header-align="center" align="center" label="推荐人手机号" min-width="120" show-overflow-tooltip/>
+      <el-table-column type="index" label="序号" width="60" show-overflow-tooltip/>
+      <el-table-column prop="staffName" label="员工姓名" min-width="150" show-overflow-tooltip/>
+      <el-table-column prop="staffMobile" label="员工手机号" min-width="150" show-overflow-tooltip/>
+      <el-table-column type="recommandToday" label="今日推荐数" min-width="150" show-overflow-tooltip/>
     </el-table>
 
     <el-pagination

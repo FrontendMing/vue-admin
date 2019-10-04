@@ -2,8 +2,8 @@
   <div>
     <filter-component @search="searchTable()" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
-        <el-form-item prop="qrcodeName">
-          <el-input type="text" v-model="filterForm.qrcodeName" placeholder="二维码名称"></el-input>
+        <el-form-item prop="companyName">
+          <el-input type="text" v-model="filterForm.companyName" placeholder="门店名称"></el-input>
         </el-form-item>
       </el-form>
       <template slot="moreBtns">
@@ -13,19 +13,43 @@
 
     <el-table :data="tableData" border v-loading="tableDataLoading" style="width: 100%;">
       <el-table-column type="index" align="center" width="60" label="序号" show-overflow-tooltip/>
-      <el-table-column prop="status" align="center" label="状态" show-overflow-tooltip/>
-      <el-table-column prop="companyName" align="center" label="门店" show-overflow-tooltip/>
-      <el-table-column prop="activityName" align="center" label="活动名称" show-overflow-tooltip/>
-      <el-table-column prop="startTime" align="center" label="开始时间" show-overflow-tooltip/>
-      <el-table-column prop="endTime" align="center" label="到期时间" show-overflow-tooltip/>
-      <el-table-column prop="goodsTotal" align="center" label="商品数" show-overflow-tooltip/>
-      <el-table-column prop="carousel" align="center" label="今/总(报名数)" min-width="120" show-overflow-tooltip/>
-      <el-table-column prop="links" align="center" label="今/总(浏览量)" min-width="120" show-overflow-tooltip/>
-      <el-table-column prop="pageUrl" align="center" label="活动链接" show-overflow-tooltip/>
-      <el-table-column prop="activityDetail" align="center" label="报名信息" show-overflow-tooltip/>
-      <el-table-column prop="staffData" align="center" label="员工数据" show-overflow-tooltip/>
-      <el-table-column prop="dataAnalyz" align="center" label="数据分析" show-overflow-tooltip/>
-      <el-table-column prop="redPacketRecord" align="center" label="红包记录" show-overflow-tooltip/>
+      <el-table-column prop="status" align="center" label="状态" min-width="100" show-overflow-tooltip/>
+      <el-table-column prop="companyName" align="center" label="门店" min-width="120" show-overflow-tooltip/>
+      <el-table-column prop="activityName" align="center" label="活动名称" min-width="160" show-overflow-tooltip/>
+      <el-table-column prop="startTime" align="center" label="开始时间" min-width="120" show-overflow-tooltip/>
+      <el-table-column prop="endTime" align="center" label="到期时间" min-width="120" show-overflow-tooltip/>
+      <el-table-column prop="goodsTotal" align="center" label="商品数" min-width="80" show-overflow-tooltip/>
+      <el-table-column align="center" label="今/总(报名数)" min-width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{ `${scope.row.dayApplicantsTotal || 0} / ${scope.row.applicantsTotal || 0}` }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="今/总(浏览量)" min-width="120" show-overflow-tooltip>
+        <template slot-scope="scope">
+          {{ `${scope.row.dayBrowseTotal || 0} / ${scope.row.browseTotal || 0}` }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="pageUrl" align="center" label="活动链接" min-width="100" show-overflow-tooltip/>
+      <el-table-column prop="activityDetail" align="center" label="报名信息" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewCurrentRowInfo('signUp', scope.row.activityId)">报名信息</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="staffData" align="center" label="员工数据" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewCurrentRowInfo('staff', scope.row.activityId)">员工数据</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="dataAnalyz" align="center" label="数据分析" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewCurrentRowInfo('data', scope.row.activityId)">数据分析</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column prop="redPacketRecord" align="center" label="红包记录" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewCurrentRowInfo('redPacket', scope.row.activityId)">红包记录</el-button>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" align="center" width="300" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleAction('modify', scope.row)">修改</el-button>
@@ -69,7 +93,10 @@
   import ShareSetting from './base/ShareSetting'
   import RedPacketRules from './base/RedPacketRules'
   import { getActivityList } from '@/api/activity'
+  import { PageInit } from '@/views/common/mixins/PageInit.js'
   export default {
+    name: 'activity',
+    mixins: [ PageInit ],
     components: {
       // ResetPassword,
       CreateActivity,
@@ -78,24 +105,11 @@
     },
     data(){
       return {
+        filterForm: {},
+
         activityVisible: false,
         shareVisible: false,
         rulesVisible: false,
-
-        filterForm: {},
-
-        pageIndex: 1,
-        pageSize: 10,
-        totalPage: 0,
-        tableData: [{
-          id: 1,
-          name: '瓜皮',
-          mobile: '13533338888',
-          status: 1
-        }],
-
-        tableDataLoading: false,
-
       }
     },
     filters: {
@@ -103,19 +117,10 @@
         return val === 1 ? '可用' : '不可用'
       }
     },
-    mounted() {
-      this.getTableData()
-    },
     methods: {
-      searchTable(){
-
-      },
-      resetForm(){
-
-      },
       async getTableData(params = {}){
         const pager = `pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
-        const res = await getActivityList(pager, {jsonType: true, ...params})
+        const res = await getActivityList(pager, params)
         if(res.code == 0){
           const { list, currPage, pageSize, totalCount } = res.data
           this.tableData = list
@@ -124,9 +129,20 @@
           this.totalPage = totalCount
         }
       },
-      update(){
-
+      // 查看当前行统计数据
+      viewCurrentRowInfo(type, activityId){
+        switch(type){
+          case 'signUp': // 报名信息
+            break
+          case 'staff': // 员工数据
+            break
+          case 'data': // 数据分析
+            break
+          case 'redPacket': // 红包记录
+            break
+        }
       },
+      // 操作
       handleAction(type, row){
         switch(type){
           case 'add': // 新增
@@ -138,7 +154,7 @@
           case 'modify': // 修改
             this.activityVisible = true
             this.$nextTick(() => {
-              this.$refs.createActivityBox.open(row.id)
+              this.$refs.createActivityBox.open(row.activityId)
             })
             break
           case 'shareSet': // 分享设置
@@ -167,19 +183,7 @@
                   
             })
             break
-
         }
-      },
-      // 每页数
-      sizeChangeHandle (val) {
-        this.pageSize = val
-        this.pageIndex = 1
-        this.getTableData()
-      },
-      // 当前页
-      currentChangeHandle (val) {
-        this.pageIndex = val
-        this.getTableData()
       },
     }
   }

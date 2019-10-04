@@ -5,30 +5,20 @@
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
           <el-form
-            :model="dataForm"
+            :model="ruleForm"
             :rules="dataRule"
-            ref="dataForm"
+            ref="ruleForm"
             status-icon
-            @keyup.enter.native="dataFormSubmit()"
+            @keyup.enter.native="submitForm()"
           >
             <el-form-item prop="username">
-              <el-input v-model="dataForm.username" placeholder="帐号"></el-input>
+              <el-input v-model="ruleForm.username" placeholder="帐号"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
-            </el-form-item>
-            <el-form-item prop="captcha">
-              <el-row :gutter="20">
-                <el-col :span="14">
-                  <el-input v-model="dataForm.captcha" placeholder="验证码"></el-input>
-                </el-col>
-                <el-col :span="10" class="login-captcha">
-                  <img :src="captchaPath" @click="getCaptcha()" alt />
-                </el-col>
-              </el-row>
+              <el-input v-model="ruleForm.password" type="password" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
+              <el-button class="login-btn-submit" type="primary" @click="submitForm()">登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -38,17 +28,14 @@
 </template>
 
 <script>
-import { getUUID } from "@/utils"
 import { login } from '@/api/login'
 export default {
   mame: 'login',
   data() {
     return {
-      dataForm: {
+      ruleForm: {
         username: "",
         password: "",
-        uuid: "",
-        captcha: ""
       },
       dataRule: {
         username: [
@@ -57,55 +44,22 @@ export default {
         password: [
           { required: true, message: "密码不能为空", trigger: "blur" }
         ],
-        // captcha: [
-        //   { required: true, message: "验证码不能为空", trigger: "blur" }
-        // ]
       },
-      captchaPath: ""
-    };
-  },
-  created() {
-    // this.getCaptcha();
+    }
   },
   methods: {
     // 提交表单
-    dataFormSubmit() {
-      this.$refs["dataForm"].validate(async valid => {
+    submitForm() {
+      this.$refs.ruleForm.validate(async valid => {
         if (valid) {
-          const res = await login({...this.dataForm})
+          const res = await login({ formType: true, ...this.ruleForm})
           if(res.code == 0){
             sessionStorage.setItem('token', res.token)
-            this.$router.replace({ name: "home" });
+            this.$router.replace({ name: "home" })
           }
-          // this.$router.replace({ name: "home" });
-          // this.$http({
-          //   url: this.$http.adornUrl("/sys/login"),
-          //   method: "post",
-          //   data: this.$http.adornData({
-          //     username: this.dataForm.userName,
-          //     password: this.dataForm.password,
-          //     uuid: this.dataForm.uuid,
-          //     // captcha: this.dataForm.captcha
-          //   })
-          // }).then(({ res }) => {
-          //   if (res && res.code === 0) {
-          //     this.$cookie.set("token", res.token);
-          //     this.$router.replace({ name: "home" });
-          //   } else {
-          //     // this.getCaptcha();
-          //     this.$message.error(res.msg)
-          //   }
-          // });
         }
-      });
+      })
     },
-    // 获取验证码
-    // getCaptcha() {
-    //   this.dataForm.uuid = getUUID();
-    //   this.captchaPath = this.$http.adornUrl(
-    //     `/captcha.jpg?uuid=${this.dataForm.uuid}`
-    //   );
-    // }
   }
 };
 </script>
@@ -157,13 +111,6 @@ export default {
   }
   .login-title {
     font-size: 16px;
-  }
-  .login-captcha {
-    overflow: hidden;
-    > img {
-      width: 100%;
-      cursor: pointer;
-    }
   }
   .login-btn-submit {
     width: 100%;

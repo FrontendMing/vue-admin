@@ -2,7 +2,7 @@
   <el-dialog
     title="重置密码"
     :visible.sync="dialogVisible"
-    width="30%">
+    width="700px">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
       <el-form-item label="新密码" prop="newPassword">
         <el-input v-model="ruleForm.newPassword" placeholder="新密码"></el-input>

@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="重置密码"
+    :title="title"
     :visible.sync="dialogVisible"
     width="700px">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
@@ -22,6 +22,7 @@
   export default {
     data(){
       return {
+        userId: this.$store.state.user.userId,
         dialogVisible: false,
 
         ruleForm: {
@@ -30,13 +31,15 @@
         },
         rules: {
           newPassword: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
-        }
+        },
+        title: '',
       }
     },
     methods: {
       open(){
         this.dialogVisible = true
         this.$nextTick(() => {
+          this.title = userId ? '重置密码' : '修改密码'
           this.$refs.ruleForm.resetFields()
         })
       },

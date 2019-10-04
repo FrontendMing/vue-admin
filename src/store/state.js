@@ -11,7 +11,7 @@ export default {
     mainTabsActiveName: ''
   },
   user: {
-    userId: '',
+    userId: 1,
     userName: '',
   }
 }

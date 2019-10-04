@@ -7,6 +7,9 @@
       <el-form-item label="用户名" prop="username">
         <el-input v-model="ruleForm.username" placeholder="用户名"></el-input>
       </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="ruleForm.password" placeholder="密码"></el-input>
+      </el-form-item>
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="手机号"></el-input>
       </el-form-item>

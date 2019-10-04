@@ -26,10 +26,10 @@
           {{ scope.row.status | formatStatus }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" align="center" width="150" label="操作">
+      <el-table-column fixed="right" align="center" width="180" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleAction('modify', scope.row)">修改</el-button>
-          <el-button type="text" size="small" @click="handleAction('resetPwd', scope.row)">重置密码</el-button>
+          <el-button type="text" size="small" @click="handleAction('modify', scope.row)">修改账号</el-button>
+          <el-button type="text" size="small" @click="handleAction('resetPwd', scope.row)">{{ userId ? '重置' : '修改' }}密码</el-button>
           <el-button type="text" size="small" @click="handleAction('deleteRow', scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -47,9 +47,10 @@
 
     <!-- 修改 -->
     <modify-account v-if="modifyAccountVisible" ref="modifyAccountBox" @update="update"></modify-account>
-
-    <!-- 重置密码 -->
+    
+    <!-- 修改 | 重置密码 -->
     <reset-password v-if="resetPasswordVisible" ref="resetPasswordBox" @update="update"></reset-password>
+
   </div>
 </template>
 
@@ -68,9 +69,11 @@
     },
     data(){
       return {
+        userId: this.$store.state.user.userId,
         filterForm: {},
 
         modifyAccountVisible: false,
+        modifyPwdVisible: false,
         resetPasswordVisible: false,
       }
     },

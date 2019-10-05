@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="修改账号信息"
+    :title="title"
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     width="700px">
@@ -38,6 +38,7 @@
     data(){
       return {
         dialogVisible: false,
+        title: '',
 
         ruleForm: {
           storeName: undefined,

@@ -3,7 +3,7 @@
     <filter-component @search="searchTable('filterForm')" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
         <el-form-item prop="roleName">
-          <el-input type="text" v-model="filterForm.roleName" placeholder="角色名"></el-input>
+          <el-input type="text" v-model="filterForm.roleName" clearable placeholder="角色名"></el-input>
         </el-form-item>
       </el-form>
     </filter-component>
@@ -26,6 +26,8 @@
     data(){
       return {
         filterForm: {},
+
+        backUpList: []
       }
     },
     methods: {
@@ -34,8 +36,16 @@
         const { code, list } = res
         if(res.code == 0){
           this.tableData = list
+          this.backUpList = list // 备份一份list，前端搜索用
         }
       },
+      searchTable(formName){
+        this.tableData = this.backUpList.filter(item => item.roleName.indexOf(this[formName].roleName) > -1)
+      },
+      resetForm(formName){
+        this.$refs[formName].resetFields()
+        this.tableData = this.backUpList
+      }
     }
   }
 </script>

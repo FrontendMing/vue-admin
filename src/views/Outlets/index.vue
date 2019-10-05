@@ -3,7 +3,7 @@
     <filter-component @search="searchTable('filterForm')" @reset="resetForm('filterForm')">
       <el-form ref="filterForm" :model="filterForm">
         <el-form-item prop="storeName">
-          <el-input type="text" v-model="filterForm.storeName" placeholder="用户名"></el-input>
+          <el-input type="text" v-model="filterForm.storeName" placeholder="门店名称"></el-input>
         </el-form-item>
         <el-form-item prop="status">
           <el-select v-model="filterForm.status" placeholder="状态">

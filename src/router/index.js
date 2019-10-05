@@ -2,6 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { clearLoginInfo } from '@/utils'
 
+// 解决 vue-router 3.1版本之后，重复点击路由，控制台的警报
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 // 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
@@ -29,8 +35,9 @@ const mainRoutes = {
     { path: '/activityList', component: _import('Activity/List'), name: 'activityList', meta: { title: '活动列表', isTab: true } },
     { path: '/redPocketRecord', component: _import('Activity/views/RedPocketRecord'), name: 'redPocketRecord', meta: { title: '红包记录', isTab: true } },
     { path: '/staffData', component: _import('Activity/views/StaffData'), name: 'staffData', meta: { title: '员工数据', isTab: true } },
-    { path: '/qrcodeList', component: _import('Qrcode/List'), name: 'qrcodeList', meta: { title: '我的二维码', isTab: true } },
-    { path: '/account', component: _import('Account'), name: 'account', meta: { title: '账号管理', isTab: true } },
+    // { path: '/qrcodeList', component: _import('Qrcode/List'), name: 'qrcodeList', meta: { title: '我的二维码', isTab: true } },
+    { path: '/accountList', component: _import('Account/AccountList'), name: 'accountList', meta: { title: '账号列表', isTab: true } },
+    { path: '/roleList', component: _import('Account/RoleList'), name: 'roleList', meta: { title: '角色列表', isTab: true } },
     { path: '/outlets', component: _import('Outlets'), name: 'outlets', meta: { title: '门店管理', isTab: true } },
   ],
   beforeEnter (to, from, next) {

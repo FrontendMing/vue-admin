@@ -6,8 +6,9 @@
         :collapse="sidebarFold"
         :collapseTransition="false"
         class="site-sidebar__menu"
+        router
       >
-        <el-menu-item index="home" @click="$router.push({ name: 'home' })">
+        <el-menu-item index="home">
           <i class="el-icon-house"></i>
           <span slot="title">首页</span>
         </el-menu-item>
@@ -16,7 +17,7 @@
             <i class="el-icon-discount"></i>
             <span>砍价活动</span>
           </template>
-          <el-menu-item index="activity-list" @click="$router.push({ name: 'activityList' })">
+          <el-menu-item index="activityList">
             <i class="el-icon-notebook-2"></i>
             <span slot="title">活动列表</span>
           </el-menu-item>
@@ -31,11 +32,21 @@
             <span slot="title">我的二维码</span>
           </el-menu-item>
         </el-submenu> -->
-        <el-menu-item index="account" @click="$router.push({ name: 'account' })">
-          <i class="el-icon-unlock"></i>
-          <span slot="title">账号管理</span>
-        </el-menu-item>
-        <el-menu-item index="outlets" @click="$router.push({ name: 'outlets' })">
+        <el-submenu index="account">
+          <template slot="title">
+            <i class="el-icon-document"></i>
+            <span>账号管理</span>
+          </template>
+          <el-menu-item index="accountList">
+            <i class="el-icon-user"></i>
+            <span slot="title">账号列表</span>
+          </el-menu-item>
+          <el-menu-item index="roleList">
+            <i class="el-icon-unlock"></i>
+            <span slot="title">角色列表</span>
+          </el-menu-item>
+        </el-submenu>
+        <el-menu-item index="outlets">
           <i class="el-icon-box"></i>
           <span slot="title">门店管理</span>
         </el-menu-item>

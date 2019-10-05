@@ -13,6 +13,15 @@
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="ruleForm.mobile" maxlength="11" placeholder="手机号"></el-input>
       </el-form-item>
+      <el-form-item label="角色" prop="roleIdList">
+        <el-select v-model="ruleForm.roleIdList" placeholder="角色" style="width: 100%;">
+          <el-option 
+            v-for="item in roleList"
+            :key="item.roleId"
+            :label="item.roleName"
+            :value="item.roleId"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="ruleForm.status" placeholder="状态" style="width: 100%;">
           <el-option label="可用" value="1"></el-option>
@@ -28,7 +37,7 @@
 </template>
 
 <script>
-  import { addAccount, updateAccount } from '@/api/account'
+  import { addAccount, updateAccount, getRoleList } from '@/api/account'
   export default {
     data(){
       return {
@@ -37,21 +46,25 @@
         ruleForm: {
           username: undefined,
           mobile: undefined,
+          roleIdList: undefined,
           status: undefined
         },
         rules: {
           username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          roleIdList: [{ required: true, message: '请选择角色', trigger: 'blur, change' }],
           mobile: [
             { required: true, message: '请输入手机号', trigger: 'blur' },
             { pattern: /^1[3456789]\d{9}$/, message: '手机号有误', trigger: 'blur' }
           ],
         },
-        type: 'add'
+        type: 'add',
+        roleList: []
       }
     },
     methods: {
       open(payload){
         this.dialogVisible = true
+        this.getRoleList()
         if(payload){
           this.type = 'edit'
           this.title = '修改账号'
@@ -70,6 +83,13 @@
         this.dialogVisible = false
         this.$refs.ruleForm.resetFields()
         this.$emit('update', this.type)
+      },
+      async getRoleList(){
+        const res = await getRoleList()
+        const { code, list } = res
+        if(code === 0){
+          this.roleList = list
+        }
       },
       submitForm(){
         this.$refs['ruleForm'].validate(async (valid) => {

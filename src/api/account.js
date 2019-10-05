@@ -15,3 +15,7 @@ export function updateAccount(data) {
 export function delAccount(data){
   return http.post(`/sys/user/delete`, data)
 }
+
+export function getRoleList(data){
+  return http.get(`/sys/role/select`, data)
+}
